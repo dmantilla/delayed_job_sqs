@@ -3,8 +3,6 @@ module Delayed
   class DeserializationError < StandardError
   end
 
-  # A job object that is persisted to the database.
-  # Contains the work object as a YAML field.
   class Job
     MAX_RUN_TIME = 4.hours
 
