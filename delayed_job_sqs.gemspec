@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name     = "delayed_job_sqs"
-  s.version  = "0.1.2"
+  s.version  = "0.1.3"
   s.date     = "2009-07-17"
   s.summary  = "Asynchronous queue execution using Amazon SQS -- Most of the code was extracted from the delayed_job gem"
   s.email    = "daniel@celect.org"
