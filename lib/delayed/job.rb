@@ -73,22 +73,32 @@ module Delayed
     # Do num jobs and return stats on success/failure.
     # Exit early if interrupted.
     def self.work_off(sqs_queue)
-      success, failure = 0, 0
+      exit_flag = false
+      until($exit)
+        success, failure = 0, 0
 
-      while(message = sqs_queue.receive)
-        job = Job.new(message)
-        case job.run
-        when true
-            success += 1
-        when false
-            failure += 1
-        else
-          break  # leave if no work could be done
+        while(message = sqs_queue.receive)
+          if message.to_s == 'stop'
+            exit_flag = true
+            break
+          end
+          
+          case Job.new(message).run
+          when true
+              success += 1
+          when false
+              failure += 1
+          else
+            break  # leave if no work could be done
+          end
+          break if $exit # leave if we're exiting
         end
-        break if $exit # leave if we're exiting
+        
+        break if exit_flag
+        
+        puts "Success: #{success}, Failures: #{failure}"
+        sleep(60)
       end
-
-      return [success, failure]
     end
 
   private
