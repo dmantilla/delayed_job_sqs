@@ -3,3 +3,4 @@ h1. Delayed Job for Amazon Simple Queue
 h3. Versions
 
 * 0.1.0: Initial release, based on delayed_job version 1.7.0 
+* 0.1.1, 0.1.2: Minor changes here and there
