@@ -23,6 +23,6 @@ Gem::Specification.new do |s|
     lib/delayed/job.rb
     lib/delayed/message_sending.rb
     lib/delayed/performable_method.rb
-    lib/delayed_job.rb
+    lib/delayed_job_sqs.rb
   ]
 end
