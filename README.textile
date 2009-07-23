@@ -1,5 +1,18 @@
 h1. Delayed Job for Amazon Simple Queue
 
+h2. Running Jobs on the queue
+<code>
+	Delayed::Job.work_off(sqs_queue)
+</code>
+This will pull messages from the queue and delete the message after, if the execution was successful. 
+Otherwise the message will remain on the queue.
+
+h2. Displaying the messages awaiting execution
+@Delayed::Job.list(sqs_queue)@ will return an array of the class and method to be executed.
+
+@Deyaled::Job.expanded_list(sqs_queue)@ returns another array with a detailed view of the possible result of the execution. 
+It's currently working for emails only. It gives a preview of each email being sent.
+
 h3. Versions
 
 * 0.1.0: Initial release, based on delayed_job version 1.7.0 

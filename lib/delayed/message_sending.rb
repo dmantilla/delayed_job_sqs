@@ -4,7 +4,7 @@ module Delayed
       delayed_method = Delayed::PerformableMethod.new(self, method.to_sym, args)
 
       # If an actual queue was provided and the message size is less than 8K, it's appended to the queue
-      if sqs_queue.is_a?(RightAws::SqsGen2::Queue) && delayed_method.to_yaml.size > 8192
+      if sqs_queue.is_a?(RightAws::SqsGen2::Queue) && delayed_method.to_yaml.size < 8192
         Delayed::Job.enqueue(sqs_queue, delayed_method)
       else
         # else the method is executed, no queueing

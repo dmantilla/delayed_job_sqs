@@ -28,6 +28,13 @@ module Delayed
       end
     end
 
+    def to_s
+     @to_s ||= begin
+        payload = payload_object
+        payload.respond_to?(:examine) ? payload.examine : name
+      end
+    end
+    
     def run(max_run_time = MAX_RUN_TIME)
       begin
         runtime = Benchmark.realtime do
@@ -96,11 +103,24 @@ module Delayed
         
         break if exit_flag
         
-        puts "Success: #{success}, Failures: #{failure}"
         sleep(60)
       end
     end
 
+    def self.job_list(sqs_queue)
+      jobs = []
+      while(message = sqs_queue.receive); jobs << Job.new(message); end
+      jobs
+    end
+
+    def self.list(sqs_queue)
+      job_list(sqs_queue).collect {|j| j.name}
+    end
+
+    def self.expanded_list(sqs_queue)
+      job_list(sqs_queue).collect {|j| j.to_s}
+    end
+    
   private
 
     def deserialize(source)
